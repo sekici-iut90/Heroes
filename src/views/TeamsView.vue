@@ -145,6 +145,7 @@ export default {
 
         viewTeamDetails(team) {
             console.log("View team:", team);
+            this.team
         },
 
         editTeam(team) {
