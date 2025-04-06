@@ -36,7 +36,7 @@ const routes = [
     name: 'OrgTeams',
     component: orgsTeamsView,
     meta: { requiresAuth: true }
-  }
+  },
 
 ]
 

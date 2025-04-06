@@ -53,7 +53,7 @@
         <v-row v-else class="fill-height" align="center" justify="center">
             <v-col cols="12" class="text-center">
                 <v-img
-                    src="@/assets/empty-heroes.svg"
+                    src="@/assets/empty-heroes.png"
                     max-height="200"
                     contain
                     class="mb-6"

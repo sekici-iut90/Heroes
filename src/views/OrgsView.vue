@@ -41,6 +41,7 @@
                         </v-avatar>
                         <div>
                             <div class="text-h6">{{ org.name }}</div>
+
                         </div>
                     </v-card-title>
                 </v-card>
@@ -50,12 +51,6 @@
         <!-- Empty State -->
         <v-row v-else class="fill-height" align="center" justify="center">
             <v-col cols="12" class="text-center">
-                <v-img
-                    src="@/assets/empty-orgs.svg"
-                    max-height="200"
-                    contain
-                    class="mb-6"
-                ></v-img>
                 <h2 class="text-h5 grey--text text--darken-1 mb-4">No Organisations Created Yet</h2>
                 <v-btn
                     color="primary"
