@@ -20,7 +20,6 @@
             </v-btn>
         </v-app-bar>
 
-        <!-- Organisations Grid -->
         <v-row v-if="organisationNames.length > 0">
             <v-col
                 v-for="org in organisationNames"
@@ -63,7 +62,6 @@
             </v-col>
         </v-row>
 
-        <!-- Create Organisation Dialog -->
         <v-dialog v-model="createDialog" max-width="500" persistent>
             <v-card>
                 <v-toolbar color="primary" dark flat>
@@ -111,7 +109,6 @@
             </v-card>
         </v-dialog>
 
-        <!-- Secret Verification Dialog -->
         <v-dialog v-model="secretDialog" max-width="500" persistent>
             <v-card>
                 <v-toolbar color="primary" dark flat>
@@ -216,11 +213,9 @@ export default {
                 // Store the secret in Vuex
                 this.setOrganisationSecret(this.enteredSecret);
 
-                // Try to fetch the organisation with the secret
                 const result = await this.getOrganisation(this.selectedOrg._id);
 
                 if (result) {
-                    // If successful, close dialog and navigate
                     this.secretDialog = false;
                     this.$router.push(`/orgs/${this.selectedOrg._id}/teams`);
                 } else {

@@ -1,6 +1,5 @@
 <template>
     <v-container class="pa-6">
-        <!-- App Bar with Title and Action Button -->
         <v-app-bar flat color="transparent" class="mb-8">
             <v-toolbar-title class="text-h4 font-weight-bold primary--text">
                 <v-icon large color="primary" class="mr-3">mdi-account-group</v-icon>

@@ -9,11 +9,9 @@ export default {
     },
     getters: {
         getHeroById: (state) => (id) => {
-            // Cherche d'abord dans heroAliases
             const aliasHero = state.heroAliases.find(h => h._id === id);
             if (aliasHero) return aliasHero;
 
-            // Sinon cherche dans heroes
             const hero = state.heroes.find(h => h._id === id);
             return hero || {
                 _id: id,

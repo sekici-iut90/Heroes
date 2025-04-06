@@ -31,8 +31,6 @@
             >
                 <v-card
                     class="hero-card mx-auto"
-                    hover
-                    @click="viewHeroDetails(hero)"
                 >
                     <v-card-title class="d-flex align-center">
                         <v-avatar color="primary" size="56" class="mr-4">
@@ -261,10 +259,6 @@ export default {
                 this.loading = false;
             }
         },
-
-        viewHeroDetails(hero) {
-            this.$router.push(`/heroes/${hero._id}`);
-        }
     },
 
     mounted() {
