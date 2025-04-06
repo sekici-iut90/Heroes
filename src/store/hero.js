@@ -1,4 +1,4 @@
-import { getAllAliasesService, createHeroService, updateHeroService } from '@/services/hero.service';
+import { getAllAliasesService, createHeroService, updateHeroService ,getHeroByIdService } from '@/services/hero.service';
 
 export default {
     namespaced: true,
@@ -39,6 +39,22 @@ export default {
         },
     },
     actions: {
+        async getHero({ commit }, data) {
+            let result = null;
+            try {
+                result = await getHeroByIdService(data)
+                if (result.error === 0) {
+                    commit("setCurrentHero", result.data[0])
+                    return result.data[0]
+                } else {
+                    console.log(result.data)
+                }
+
+            } catch (err) {
+                console.log("Cas anormal dans getHero()")
+            }
+            return result.data[0]
+        },
         async loadHeroAliases({ commit }) {
             try {
                 const result = await getAllAliasesService();

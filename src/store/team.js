@@ -1,4 +1,4 @@
-import { getAllTeamsService, createTeamService, teamAddHeroesService, teamRemoveHeroesService } from '@/services/team.service';
+import { getAllTeamsService, createTeamService, teamAddHeroesService, teamRemoveHeroesService, getTeamByIdService } from '@/services/team.service';
 
 export default {
     namespaced: true,
@@ -15,6 +15,29 @@ export default {
         },
     },
     actions: {
+        async fetchTeam({ commit, state }, teamId) {
+            try {
+                // Essayez d'abord de trouver dans le state existant
+                if (state.teams.length > 0) {
+                    const existingTeam = state.teams.find(t => t._id === teamId);
+                    if (existingTeam) {
+                        commit('setCurrentTeam', existingTeam);
+                        return existingTeam;
+                    }
+                }
+
+                // Sinon, faites une requête
+                const result = await getTeamByIdService(teamId);
+                if (result.error === 0) {
+                    commit('setCurrentTeam', result.data);
+                    return result.data;
+                }
+                throw new Error(result.data);
+            } catch (err) {
+                console.error('Error fetching team:', err);
+                throw err;
+            }
+        },
         async getTeams({ commit }) {
             let result = null;
             try {
