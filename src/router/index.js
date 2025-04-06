@@ -4,6 +4,7 @@ import HeroView from '@/views/HeroesView.vue'
 import OranisationView from '@/views/OrgsView.vue'
 import TeamsView from '@/views/TeamsView.vue'
 import HomeView from "@/views/HomeView.vue";
+import orgsTeamsView from "@/views/OrgsTeamsView.vue";
 
 
 Vue.use(VueRouter)
@@ -30,6 +31,12 @@ const routes = [
     name: 'organisations',
     component: OranisationView
   },
+  {
+    path: '/orgs/:orgId/teams',
+    name: 'OrgTeams',
+    component: orgsTeamsView,
+    meta: { requiresAuth: true }
+  }
 
 ]
 

@@ -227,7 +227,7 @@ export default {
                 if (result) {
                     // If successful, close dialog and navigate
                     this.secretDialog = false;
-                    this.$router.push(`/orgs/${this.selectedOrg._id}`);
+                    this.$router.push(`/orgs/${this.selectedOrg._id}/teams`);
                 } else {
                     this.secretError = true;
                 }
