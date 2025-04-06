@@ -13,6 +13,7 @@ export default {
             if (aliasHero) return aliasHero;
 
             const hero = state.heroes.find(h => h._id === id);
+            console.log(JSON.stringify(hero,null,2))
             return hero || {
                 _id: id,
                 name: 'Unknown Hero',

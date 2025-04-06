@@ -19,7 +19,6 @@
             </v-btn>
         </v-app-bar>
 
-        <!-- Teams Grid -->
         <v-row v-if="teams.length > 0">
             <v-col
                 v-for="team in teams"
@@ -42,13 +41,10 @@
                             <div class="text-h6">{{ team.name }}</div>
                         </div>
                     </v-card-title>
-
-
                 </v-card>
             </v-col>
         </v-row>
 
-        <!-- Empty State -->
         <v-row v-else class="fill-height" align="center" justify="center">
             <v-col cols="12" class="text-center">
                 <h2 class="text-h5 grey--text text--darken-1 mb-4">No Teams Created Yet</h2>
@@ -63,7 +59,6 @@
             </v-col>
         </v-row>
 
-        <!-- Create Team Dialog -->
         <v-dialog v-model="dialog" max-width="500" persistent>
             <v-card>
                 <v-toolbar color="primary" dark flat>
@@ -100,6 +95,63 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <v-dialog v-model="teamDetailsDialog" max-width="500">
+            <v-card>
+                <v-toolbar color="primary" dark flat>
+                    <v-toolbar-title>Team Details</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="teamDetailsDialog = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+
+                <v-card-text class="pt-6">
+                    <div v-if="selectedTeam">
+                        <p><strong>Name:</strong> {{ selectedTeam.name }}</p>
+                    </div>
+                </v-card-text>
+
+                <v-card-actions class="px-6 pb-6">
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" @click="editTeam(selectedTeam)">Edit</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="editTeamDialog" max-width="500">
+            <v-card>
+                <v-toolbar color="primary" dark flat>
+                    <v-toolbar-title>Edit Team</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="editTeamDialog = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+
+                <v-card-text class="pt-6">
+                    <v-text-field
+                        v-model="editedTeamName"
+                        label="Team Name"
+                        outlined
+                        clearable
+                        autofocus
+                        :rules="[rules.required]"
+                    ></v-text-field>
+                </v-card-text>
+
+                <v-card-actions class="px-6 pb-6">
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="editTeamDialog = false">Cancel</v-btn>
+                    <v-btn
+                        color="primary"
+                        @click="updateTeam"
+                    >
+                        Save
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
@@ -116,6 +168,10 @@ export default {
         rules: {
             required: value => !!value || 'Required',
         },
+        teamDetailsDialog: false,
+        selectedTeam: null,
+        editTeamDialog: false,
+        editedTeamName: '',
     }),
 
     computed: {
@@ -123,7 +179,7 @@ export default {
     },
 
     methods: {
-        ...mapActions('team', ['getTeams', 'createTeam']),
+        ...mapActions('team', ['getTeams', 'createTeam', 'updateTeamData']),
 
         openCreateTeamDialog() {
             this.newTeamName = '';
@@ -144,12 +200,25 @@ export default {
         },
 
         viewTeamDetails(team) {
-            console.log("View team:", team);
-            this.team
+            this.selectedTeam = team;
+            this.teamDetailsDialog = true;
         },
 
         editTeam(team) {
-            console.log("Edit team:", team);
+            this.selectedTeam = team;
+            this.editedTeamName = team.name;
+            this.editTeamDialog = true;
+        },
+
+        async updateTeam() {
+            try {
+                await this.updateTeamData({ _id: this.selectedTeam._id, name: this.editedTeamName });
+                await this.getTeams();
+                this.editTeamDialog = false;
+                this.teamDetailsDialog = false;
+            } catch (error) {
+                console.error("Error updating team:", error);
+            }
         },
     },
 

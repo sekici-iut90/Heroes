@@ -5,6 +5,7 @@ export default {
     state: {
         teams: [],
         currentTeam: null,
+
     },
     mutations: {
         setTeams(state, teams) {

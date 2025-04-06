@@ -1,5 +1,6 @@
     <template>
         <v-container class="pa-6">
+            <!-- App Bar avec bouton retour et titre -->
             <v-app-bar flat color="transparent" class="mb-8">
                 <v-btn icon @click="$router.go(-1)">
                     <v-icon>mdi-arrow-left</v-icon>
@@ -23,9 +24,10 @@
                 </v-btn>
             </v-app-bar>
 
+            <!-- Dialog pour créer une nouvelle équipe -->
             <v-dialog v-model="addTeamDialog" max-width="500">
                 <v-card>
-                    <v-card-title>Add existing Team</v-card-title>
+                    <v-card-title>Add epz Team</v-card-title>
                     <v-card-text>
                         <v-select
                             v-model="selectedTeam"
@@ -230,11 +232,16 @@
                 if (!this.selectedTeamForHero || !this.selectedHero) return;
 
                 try {
+                    // Modifier le format des données envoyées à l'API
                     await this.teamAddHeroes({
-                        _id: this.selectedTeamForHero,
-                        members: [this.selectedHero]
+                        _id: this.selectedTeamForHero,  // Utiliser _id au lieu de teamId
+                        members: [this.selectedHero]   // Utiliser members au lieu de heroesId
                     });
+
+                    // Rafraîchir les données
                     await this.getTeams();
+
+                    // Réinitialiser et fermer le dialogue
                     this.selectedHero = null;
                     this.selectedTeamForHero = null;
                     this.addHeroDialog = false;
